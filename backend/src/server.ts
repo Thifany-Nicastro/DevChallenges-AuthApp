@@ -1,8 +1,15 @@
 import 'reflect-metadata';
-
+import 'dotenv/config';
 import app from './app';
-import './database';
+import database from './config/database';
 
-app.listen(3000, () => {
-  console.log('Server started!');
+const port = process.env.NODE_PORT;
+
+database.on('error', console.error.bind(console, 'connection error:'));
+database.once('open', function() {
+  console.log("Connected!");
 });
+
+app.listen(port, () => {
+  console.log(`Listening at http://localhost:${port}`);
+})

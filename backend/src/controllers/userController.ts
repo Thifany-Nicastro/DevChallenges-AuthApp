@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-// import { getRepository } from 'typeorm';
+import { container } from 'tsyringe';
 
-// import User from '../models/user';
-// import UserService from '../services/CreateUserService';
+import UserService from '../services/userService';
 
 class UserController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -10,7 +9,20 @@ class UserController {
   }
 
   public async store(request: Request, response: Response): Promise<Response> {
-    return response.json();
+    try {
+      const { email, password } = request.body;
+
+      const userService = container.resolve(UserService);
+  
+      const user = await userService.create({
+        email,
+        password
+      });
+  
+      return response.json(user);
+    } catch (err) {
+      return response.status(400).json({ error: err.message })
+    }
   }
 
   public async show(request: Request, response: Response): Promise<Response> {

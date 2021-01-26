@@ -5,7 +5,7 @@ const routes = Router();
 routes.use('/users', usersRouter);
 
 routes.get('/', (request, response) => {
-return response.json({ message: 'Hello world' });
+    return response.json({ message: 'Hello world' });
 });
 
 export default routes;
