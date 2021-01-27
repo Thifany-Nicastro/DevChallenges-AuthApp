@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
-import { container } from 'tsyringe';
-
 import UserService from '../services/userService';
+
+const userService = new UserService();
 
 class UserController {
   public async index(request: Request, response: Response): Promise<Response> {
-    return response.json();
+    const users = await userService.list();
+
+    return response.json(users);
   }
 
   public async store(request: Request, response: Response): Promise<Response> {
     try {
       const { email, password } = request.body;
-
-      const userService = container.resolve(UserService);
   
       const user = await userService.create({
         email,

@@ -1,12 +1,18 @@
-import User from '../models/user';
+import User, { IUser } from '../models/user';
 
-interface Request {
+interface IRequest {
   email: string;
   password: string;
 }
 
 class UserService {
-  public async create({ email, password }: Request) {
+  public async list(): Promise<IUser> {
+    const users = User.find().sort({ createdAt: -1 });
+
+    return users;
+  }
+
+  public async create({ email, password }: IRequest): Promise<IUser> {
     const user = new User({
       email: email,
       password: password
